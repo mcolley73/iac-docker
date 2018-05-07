@@ -1,6 +1,12 @@
-FROM alpine:3.7
+FROM anapsix/alpine-java:8_jdk
 
 COPY terraform-0.11.7 /usr/bin/terraform
+
+ENV IVY_HOME /cache
+ENV GRADLE_VERSION 2.12
+ENV GRADLE_HOME /usr/local/gradle
+ENV PATH ${PATH}:${GRADLE_HOME}/bin
+ENV GRADLE_USER_HOME /gradle
 
 RUN set -ex \
   && apk --update add sudo \
@@ -12,6 +18,7 @@ RUN set -ex \
   && apk --update add curl \
   && apk --update add git \
   && apk --update add unzip \
+  && apk --update add libstdc++ \
   && apk --update add --virtual build-dependencies python-dev libffi-dev openssl-dev build-base linux-headers musl-dev \
   && git config --global http.sslVerify false \
   && pip install --trusted-host pypi.python.org --upgrade cffi \
@@ -46,6 +53,14 @@ RUN set -ex \
   && mkdir -p /var/log \
   && echo 'localhost' > /etc/ansible/hosts \
   && pip list
+
+# Install gradle
+WORKDIR /usr/local
+RUN wget  https://services.gradle.org/distributions/gradle-$GRADLE_VERSION-bin.zip && \
+    unzip gradle-$GRADLE_VERSION-bin.zip && \
+    rm -f gradle-$GRADLE_VERSION-bin.zip && \
+    ln -s gradle-$GRADLE_VERSION gradle && \
+    echo -ne "- with Gradle $GRADLE_VERSION\n" >> /root/.built
 
 # COPY krb5.conf /etc
 WORKDIR /workspace

@@ -1,6 +1,6 @@
 FROM anapsix/alpine-java:8_jdk
 
-COPY terraform-0.11.7 /usr/bin/terraform
+COPY $terraform_path /usr/bin/terraform
 
 ENV IVY_HOME /cache
 ENV GRADLE_VERSION 6.1

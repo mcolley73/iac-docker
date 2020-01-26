@@ -18,5 +18,4 @@ docker run -it --rm \
   -v $working_dir:/workspace \
   -v $home_dir:/root \
   --net host \
-  mcolley-iac-docker:latest /bin/ash
-  
+  iac-docker:latest /bin/ash

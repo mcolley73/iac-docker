@@ -1,5 +1,8 @@
 FROM anapsix/alpine-java:8_jdk
 
+# Expect terraform_path and default it to 'tf_not_found' if not provided
+ARG terraform_path=tf_not_found
+RUN echo "Expecting terraform binary on build system at path: $terraform_path"
 COPY $terraform_path /usr/bin/terraform
 
 ENV IVY_HOME /cache

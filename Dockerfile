@@ -3,7 +3,7 @@ FROM anapsix/alpine-java:8_jdk
 COPY terraform-0.11.7 /usr/bin/terraform
 
 ENV IVY_HOME /cache
-ENV GRADLE_VERSION 2.12
+ENV GRADLE_VERSION 6.1
 ENV GRADLE_HOME /usr/local/gradle
 ENV PATH ${PATH}:${GRADLE_HOME}/bin
 ENV GRADLE_USER_HOME /gradle
@@ -18,6 +18,7 @@ RUN set -ex \
   && apk --update add curl \
   && apk --update add git \
   && apk --update add unzip \
+  && apk --update add rsync \
   && apk --update add libstdc++ \
   && apk --update add --virtual build-dependencies python-dev libffi-dev openssl-dev build-base linux-headers musl-dev \
   && git config --global http.sslVerify false \
